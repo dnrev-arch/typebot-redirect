@@ -195,6 +195,12 @@
         <input type="number" id="inp-dias" value="20" min="1" max="365">
       </div>
     </div>
+    <div class="form-row" style="margin-top: 12px;">
+      <div class="field full">
+        <label>URL alternativa (para quem já acessou — opcional)</label>
+        <input type="url" id="inp-alt" placeholder="Ex: https://t.me/seugrupo ou https://youtube.com/...">
+      </div>
+    </div>
     <div style="margin-top: 12px; text-align: right;">
       <button class="btn-primary" onclick="criarLink()">+ Criar link</button>
     </div>
@@ -253,17 +259,19 @@ function renderizar() {
 async function criarLink() {
   const label = document.getElementById('inp-label').value.trim();
   const url = document.getElementById('inp-url').value.trim();
+  const alt = document.getElementById('inp-alt').value.trim();
   const dias = document.getElementById('inp-dias').value;
   if (!label || !url) return toast('Preencha o nome e a URL do Typebot', false);
 
   const r = await fetch('/api/links', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ label, typebot_url: url, block_days: dias })
+    body: JSON.stringify({ label, typebot_url: url, alternate_url: alt, block_days: dias })
   });
   const data = await r.json();
   document.getElementById('inp-label').value = '';
   document.getElementById('inp-url').value = '';
+  document.getElementById('inp-alt').value = '';
   toast('Link criado! URL copiada.', true);
   await carregar();
   copiarUrl(data.url_gerada);
