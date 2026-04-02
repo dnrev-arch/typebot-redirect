@@ -67,10 +67,10 @@ function getFingerprint(req) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// ROTAS DE REDIRECIONAMENTO — /online/:id
+// ROTAS DE REDIRECIONAMENTO — /chatwhatsapp/:id
 // ═══════════════════════════════════════════════════════════════
 
-app.get('/online/:id', async (req, res) => {
+app.get('/chatwhatsapp/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -160,7 +160,7 @@ app.get('/api/links', authGuard, async (req, res) => {
     ORDER BY l.created_at DESC
   `);
   const base = process.env.BASE_URL || `http://localhost:${PORT}`;
-  res.json(rows.map(r => ({ ...r, url_gerada: `${base}/online/${r.id}` })));
+  res.json(rows.map(r => ({ ...r, url_gerada: `${base}/chatwhatsapp/${r.id}` })));
 });
 
 // Criar link
@@ -177,7 +177,7 @@ app.post('/api/links', authGuard, async (req, res) => {
   );
 
   const base = process.env.BASE_URL || `http://localhost:${PORT}`;
-  res.json({ id, url_gerada: `${base}/online/${id}` });
+  res.json({ id, url_gerada: `${base}/chatwhatsapp/${id}` });
 });
 
 // Ativar/desativar link
